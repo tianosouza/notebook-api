@@ -1,0 +1,22 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  host: <%= ENV["DB_HOST"] %>
+  username: <%= ENV["POSTGRES_USER"] %>
+  password: <%= ENV["POSTGRES_PASSWORD"] %>
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  timeout: 5000
+
+development:
+  <<: *default
+  database: notebook_api_development
+
+test:
+  <<: *default
+  database: notebook_api_test
+
+production:
+  <<: *default
+  database: notebook_api_production
+  username: notebook_api
+  password: <%= ENV["NOTEBOOK_API_DATABASE_PASSWORD"] %>

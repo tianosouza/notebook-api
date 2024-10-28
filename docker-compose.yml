@@ -1,0 +1,39 @@
+services:
+  api-notebook-db:
+    container_name: api-notebook-db
+    image: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    networks:
+      - app-network
+  
+  api-notebook:
+    container_name: api-notebook
+    build:
+      context: .
+      dockerfile: Dockerfile
+    command: bundle exec rails s -p 3000 -b '0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - "5000:5000"
+    depends_on:
+      - api-notebook-db
+    env_file:
+    - .env
+    networks:
+      - app-network
+
+volumes:
+  pgdata:
+    driver: local
+    
+networks:
+  app-network:
