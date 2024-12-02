@@ -46,4 +46,4 @@ end
 
 gem "rails-i18n", "~> 7.0"
 
-gem "active_model_serializers", "~> 0.10.14"
+gem "active_model_serializers", "~> 0.10.15"
